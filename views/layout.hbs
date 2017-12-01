@@ -6,17 +6,25 @@
     <link type="text/css" rel="stylesheet" href="stylesheets/materialize.min.css"  media="screen,projection"/>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body>
-		{{#if user}}
-		<div>You're currently logged in as: <a href=/users/{{user.username}}>{{user.username}}</a></div> (<a href="/logout">logout</a>)
-		{{else}}
-		<a href="/login">login</a> or 
-		<a href="/register">register</a>
-		{{/if}}
-		<div>
-			{{{body}}}
+  <body style="background-image:url('./img/background.png'); height:100vh; overflow:hidden; background-size:cover;">
+
+      <nav style="background-color:rgba(0,0,0,0.85)">
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">Logo</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="" class="btn waves-effect waves-light"><i class="large material-icons left">add</i>Start Session</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+            
+      
+  			{{{body}}}
+      
+
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="js/materialize.min.js"></script>
-		</div>
+
   </body>
 </html>
