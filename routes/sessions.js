@@ -12,7 +12,28 @@ module.exports = function(router) {
         })
       });
     } else {
-      res.redirect('/');
+      res.render('session', {id:'guest'});
+    }
+  });
+
+  router.post('/api/add-item?s=:sid&t=tid', function(req,res) {
+    if (req.params.sid == 'guest') {
+
+    } else {
+      MenuItem.findOne({_id:req.params.tid}, function(err, menuItem) {
+        new Item({
+          type:menuItem,
+          weight:Number(req.body.weight),
+          cost:Number(req.body.weight)*Number(menuItem.cost)
+        }).save(function(err, item) {
+          Session.findOne({_id:req.params.sid}, function(err, ses) {
+            sess.items.push(item);
+            sess.save(function(err, sess) {
+              console.log(sess);
+            });
+          });
+        });
+      });
     }
   });
 }

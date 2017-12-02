@@ -3,7 +3,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 
 var MenuItem = new mongoose.Schema({
   name:String,
-  purchase_cost:Number
+  cost:Number
 });
 
 var Item = new mongoose.Schema({
