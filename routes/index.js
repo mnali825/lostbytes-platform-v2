@@ -59,47 +59,8 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/users/:username', function(req, res) {
-  // NOTE: use populate() to retrieve related documents and 
-  // embed them.... notice the call to exec, which executes
-  // the query:
-  // - http://mongoosejs.com/docs/api.html#query_Query-populate
-  // - http://mongoosejs.com/docs/api.html#query_Query-exec
-  User
-    .findOne({username: req.params.username})
-    .populate('images').exec(function(err, user) {
-    // NOTE: this allows us to conditionally show a form based
-    // on whether or not they're on "their page" and if they're
-    // logged in:
-    //
-    // - is req.user populated (yes means they're logged in and we 
-    // have a user
-    // - is the authenticated user the same as the user that we
-    // retireved by looking at the slug?
-    
-    // var showForm = !!req.user && req.user.username == user.username;
-    res.render('user', { 
-      // showForm: showForm, 
-      images: user.images, 
-      username: user.username
-    });
-  });
-});
-
-router.post('/image/create', function(req, res) {
-  // NOTE: we're grabbing the _id from request.user
-  // and saving it into the image object
-  var img = new Image({
-    url: req.body.url,
-    user: req.user._id
-  });
-
-  img.save(function(err, savedImage, count) {
-    // NOTE: we're grabbing the image id from the
-    // saved image to add to the user's image array
-    req.user.images.push(savedImage._id);
-    req.user.save(function(err, savedUser, count) {
-      res.redirect('/users/' + req.user.username);
-    });
+  User.findOne({username: req.params.username}, function(err, user) {
+    res.render('user', { username: user.username});
   });
 });
 
