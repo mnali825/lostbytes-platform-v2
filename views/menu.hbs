@@ -1,12 +1,15 @@
+<!-- TODO -->
+<!-- Needs form validation, both inputs must be required -->
+
 <div class='menu-page' style="height:91vh; background-color:rgba(0,0,0,0.85);">
   <div class="menu-container">
 
     <div class="menu-form card-panel" style="">
       <h3>Add New Item</h3>
-      <form  action="index.html" method="post">
+      <form id="add-menu-item-form" action="" method="post">
         <div>
           <label for="">Item Name</label>
-          <input type="text" name="name" value="">
+          <input id="item-name" type="text" name="name" value="">
         </div>
         <div class="">
           <p>Unit of Measurement</p>
@@ -20,7 +23,7 @@
         </div>
         <div class="">
           <label for="">Cost</label>
-          <input type="number" name="" value="">
+          <input id="item-cost" type="number" name="" value="">
         </div>
         <input class="btn btn-large" style="width:100%;" type="submit" name="" value="Submit">
       </form>
@@ -36,3 +39,24 @@
 
   </div>
 </div>
+
+
+<script type="text/javascript">
+  var servername = 'http://localhost:3000';
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-menu-item-form').addEventListener('submit', handleMenuItemForm);
+  });
+
+  function handleMenuItemForm(evt) {
+    evt.preventDefault();
+
+    var name = document.getElementById('item-name').value;
+    var cost = document.getElementById('item-cost').value;
+    console.log(name + cost);
+
+    var req = new XMLHttpRequest();
+    req.open('POST', servername+'/api/create-menu-item', true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('name='+name+'&cost='+cost);
+  }
+</script>

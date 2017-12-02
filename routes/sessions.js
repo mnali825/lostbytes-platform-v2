@@ -1,4 +1,8 @@
 module.exports = function(router) {
+  var mongoose = require('mongoose');
+  var Session = mongoose.model('Session');
+  var MenuItem = mongoose.model('MenuItem');
+
   router.get('/start-session', function(req,res) {
     if (req.user) {
       new Session({

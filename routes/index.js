@@ -7,6 +7,7 @@ var Session = mongoose.model('Session');
 var MenuItem = mongoose.model('MenuItem');
 var Item = mongoose.model('Item');
 
+require('./menu')(router)
 require('./sessions')(router);
 
 router.get('/', function(req, res) {

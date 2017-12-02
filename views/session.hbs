@@ -9,6 +9,12 @@
             <input id="weight" type="text" class="validate">
             <label for="weight">Weight</label>
           </div>
+
+          <div id="menu-items">
+            {{#each menuItems}}
+            <a href="" class="btn btn-large waves-effect waves-light">{{name}}</a>
+            {{/each}}
+          </div>
                 
         </div>
       </nav>
