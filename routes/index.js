@@ -7,6 +7,8 @@ var Session = mongoose.model('Session');
 var MenuItem = mongoose.model('MenuItem');
 var Item = mongoose.model('Item');
 
+require('./sessions')(router);
+
 router.get('/', function(req, res) {
   res.render('index', { user: req.user });
 });
@@ -69,20 +71,5 @@ router.get('/create-menu', function(req, res) {
   }
 });
 
-router.get('/start-session', function(req,res) {
-  if (req.user) {
-    new Session({
-      items:[],
-      weight:0,
-      cost:0
-    }).save(function(err, sess) {
-      MenuItem.find({}, function(err, menuItems) {
-        res.render('session', {id:sess._id, menuItems:menuItems});  
-      })
-    });
-  } else {
-    res.redirect('/');
-  }
-})
 
 module.exports = router;
