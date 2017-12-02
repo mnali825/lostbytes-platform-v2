@@ -3,6 +3,9 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = mongoose.model('User');
+var Session = mongoose.model('Session');
+var MenuItem = mongoose.model('MenuItem');
+var Item = mongoose.model('Item');
 
 router.get('/', function(req, res) {
   res.render('index', { user: req.user });
@@ -27,7 +30,7 @@ router.post('/login', function(req,res,next) {
       // NOTE: using this version of authenticate requires us to
       // call login manually
       req.logIn(user, function(err) {
-        res.redirect('/users/' + user.username);
+        res.redirect('/');
       });
     } else {
       res.render('login', {message:'Your login or password is incorrect.'});
@@ -73,7 +76,9 @@ router.get('/start-session', function(req,res) {
       weight:0,
       cost:0
     }).save(function(err, sess) {
-      res.render('session', {id:sess._id});
+      MenuItem.find({}, function(err, menuItems) {
+        res.render('session', {id:sess._id, menuItems:menuItems});  
+      })
     });
   } else {
     res.redirect('/');
