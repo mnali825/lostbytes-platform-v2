@@ -12,7 +12,7 @@
 
           <div id="menu-items">
             {{#each menuItems}}
-            <a href="" class="btn btn-large waves-effect waves-light">{{name}}</a>
+            <a href="" class="btn btn-large waves-effect waves-light menu-item-btn" id="{{_id}}">{{name}}</a>
             {{/each}}
           </div>
                 
@@ -32,3 +32,26 @@
 </div>
 
 <input type="hidden" value="{{id}}" id="session-id">
+
+<script type="text/javascript">
+  var servername = 'http://localhost:3000';
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuItemBtns = document.getElementsByClassName('menu-item-btn');
+    Array.prototype.forEach.call(menuItemBtns, function(btn) {
+      btn.addEventListener('click', handleAddItem);
+    });
+  });
+
+  function handleAddItem(evt) {
+    evt.preventDefault();
+    var tid = this.id;
+    var sid = document.getElementById('session-id').value;
+    var weight = document.getElementById('weight').value;
+
+    var req = new XMLHttpRequest();
+    req.open('POST', servername+'/api/add-item/s='+sid+'&t='+tid, true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('weight='+weight);
+
+  }
+</script>

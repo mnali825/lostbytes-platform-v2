@@ -2,6 +2,7 @@ module.exports = function(router) {
   var mongoose = require('mongoose');
   var Session = mongoose.model('Session');
   var MenuItem = mongoose.model('MenuItem');
+  var Item = mongoose.model('Item');
 
   router.get('/start-session', function(req,res) {
     if (req.user) {
@@ -20,17 +21,22 @@ module.exports = function(router) {
     }
   });
 
-  router.post('/api/add-item?s=:sid&t=tid', function(req,res) {
+  router.post('/api/add-item/s=:sid&t=:tid', function(req,res) {
     if (req.params.sid == 'guest') {
 
     } else {
       MenuItem.findOne({_id:req.params.tid}, function(err, menuItem) {
-        new Item({
+        console.log('this is the menuitem we are adding: '+ menuItem);
+        var item = new Item({
           type:menuItem,
           weight:Number(req.body.weight),
           cost:Number(req.body.weight)*Number(menuItem.cost)
         }).save(function(err, item) {
+          console.log(err);
+          console.log('here: '+item);
           Session.findOne({_id:req.params.sid}, function(err, sess) {
+            console.log('found the sesh: '+sess);
+            console.log(item);
             sess.items.push(item);
             sess.weight += item.weight;
             sess.cost += item.cost;
@@ -39,11 +45,12 @@ module.exports = function(router) {
             });
           });
         });
+
       });
     }
   });
 
-  router.post('/api/finish-session?s=:id', function(req,res) {
+  router.post('/api/finish-session/s=:id', function(req,res) {
     Session.findOne({_id:req.params.id}, function(err, sess) {
       User.findOne({username:req.params.username}, function(err, user) {
         user.sessions.push(sess._id);
