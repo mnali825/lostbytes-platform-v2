@@ -1,17 +1,39 @@
 <div class='menu-page'>
-  <h1>Create Menu</h1>
+  <h1>Current Menu Items</h1>
   <div class="menu-container">
-    <div class="new-menu-item">
-      Add Item to Menu
-      <form class="" action="index.html" method="post">
-        <input type="text" name="item-name" value="">
-        <input type="text" name="item-cost" value="" placeholder="cost per pound/gram">
+
+    <div class="menu-form">
+      <h3>Add New Item</h3>
+      <form  action="index.html" method="post">
+        <div>
+          <label for="">Item Name</label>
+          <input type="text" name="name" value="">
+        </div>
+        <div class="">
+          <p>Unit of Measurement</p>
+          <div>
+            <input type="radio" id="unitChoice1" name="unit" value="lbs">
+            <label for="unitChoice1">Pounds</label>
+
+            <input type="radio" id="unitChoice2" name="unit" value="oz">
+            <label for="unitChoice2">Ounces</label>
+          </div>
+        </div>
+        <div class="">
+          <label for="">Cost</label>
+          <input type="number" name="" value="">
+        </div>
+        <input type="submit" name="" value="Submit">
       </form>
     </div>
-    <div class="menu-box">
-      <ul class="menu-list">
 
+    <div class="menu-list">
+      <h3>Current Menu</h3>
+      <ul >
+        <li>list</li>
+        <li>List</li>
       </ul>
     </div>
+
   </div>
 </div>
