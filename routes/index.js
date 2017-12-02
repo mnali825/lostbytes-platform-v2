@@ -52,16 +52,32 @@ router.post('/register', function(req, res) {
       // NOTE: once you've registered, you should be logged in automatically
       // ...so call authenticate if there's no error
       passport.authenticate('local')(req, res, function() {
-        res.redirect('/users/' + req.user.username);
+        res.redirect('/create-menu');
       });
     }
   });   
 });
 
-router.get('/users/:username', function(req, res) {
-  User.findOne({username: req.params.username}, function(err, user) {
-    res.render('user', { username: user.username});
-  });
+router.get('/create-menu', function(req, res) {
+  if (req.user) {
+    res.render('menu')
+  } else {
+    res.redirect('/');
+  }
 });
+
+router.get('/start-session', function(req,res) {
+  if (req.user) {
+    new Session({
+      items:[],
+      weight:0,
+      cost:0
+    }).save(function(err, sess) {
+      res.render('session', {id:sess._id});
+    });
+  } else {
+    res.redirect('/');
+  }
+})
 
 module.exports = router;

@@ -7,7 +7,7 @@ var MenuItem = new mongoose.Schema({
 });
 
 var Item = new mongoose.Schema({
-  type:ItemType,
+  type:MenuItem,
   weight:Number,
   cost:Number
 });
