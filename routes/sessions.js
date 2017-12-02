@@ -26,8 +26,10 @@ module.exports = function(router) {
           weight:Number(req.body.weight),
           cost:Number(req.body.weight)*Number(menuItem.cost)
         }).save(function(err, item) {
-          Session.findOne({_id:req.params.sid}, function(err, ses) {
+          Session.findOne({_id:req.params.sid}, function(err, sess) {
             sess.items.push(item);
+            sess.weight += item.weight;
+            sess.cost += item.cost;
             sess.save(function(err, sess) {
               console.log(sess);
             });
@@ -35,5 +37,16 @@ module.exports = function(router) {
         });
       });
     }
+  });
+
+  router.post('/api/finish-session?s=:id', function(req,res) {
+    Session.findOne({_id:req.params.id}, function(err, sess) {
+      User.findOne({username:req.params.username}, function(err, user) {
+        user.sessions.push(sess._id);
+        user.save(function(err, user) {
+          console.log(user);
+        });
+      });
+    });
   });
 }
