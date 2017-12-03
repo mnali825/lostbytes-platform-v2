@@ -32,8 +32,9 @@
     <div class="menu-list card-panel" style="padding:0;">
       <h3>Current Menu</h3>
       <ul>
-        <li>list</li>
-        <li>List</li>
+        {{#each menuItems}}
+        <li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">{{name}} ${{cost}}</a></li>
+        {{/each}}
       </ul>
     </div>
 

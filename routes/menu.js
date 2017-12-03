@@ -4,7 +4,9 @@ module.exports = function(router) {
 
   router.get('/create-menu', function(req, res) {
     if (req.user) {
-      res.render('menu')
+      MenuItem.find({}, function(err, menuItems) {
+        res.render('menu', {menuItems:menuItems});
+      });
     } else {
       res.redirect('/');
     }

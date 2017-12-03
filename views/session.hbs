@@ -1,6 +1,6 @@
 <div class="row" style="background-color:rgba(0,0,0,0.85);">
   <div class="col l8">
-    <div class="card-panel" style="height:88vh; padding:0;">
+    <div class="card-panel" style="height:71.5vh; padding:0;">
       <nav class="white black-text">
         <div class="nav-wrapper">
           
@@ -8,25 +8,50 @@
             <i class="material-icons prefix">chrome_reader_mode</i>
             <input id="weight" type="text" class="validate">
             <label for="weight">Weight</label>
-          </div>
-
-          <div id="menu-items">
-            {{#each menuItems}}
-            <a href="" class="btn btn-large waves-effect waves-light menu-item-btn" id="{{_id}}">{{name}}</a>
-            {{/each}}
-          </div>
-                
+          </div>                
         </div>
       </nav>
+
+      <div id="menu-items" style="padding:25px;">
+        {{#each menuItems}}
+        <a href="" class="btn btn-large waves-effect waves-light menu-item-btn blue darken-4" id="{{_id}}">{{name}}</a>
+        {{/each}}
+      </div>
+
     </div>
+
+    <div class="card-panel" style="height:14vh;">
+      <div class="row">
+        <div class="col l6">
+          <a href="" id="complete-btn" class="btn btn-large green darken-2" style="width:100%;">Complete Session</a>
+        </div>
+        <div class="col l6">
+          <a href="" id="cancel-btn" class="btn btn-large red darken-2" style="width:100%;">Cancel Session</a>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="col l4">
     <div class="card-panel" style="height:88vh; padding:0;">
       <nav class="white">
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo center">Logo</a>
+          <a href="#" class="brand-logo center black-text">Data</a>
         </div>
       </nav>
+      <div id="data-container" style="padding-left:15px; padding-right:15px;">
+        <div class="row card-panel center">
+          <div class="col l6">
+            <h5 class="left-align">Chicken</h5>
+          </div>
+          <div class="col l3">
+            <h5>$12.65</h5>
+            </div>
+          <div class="col l3">
+            <h5>15.27</h5>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -40,6 +65,9 @@
     Array.prototype.forEach.call(menuItemBtns, function(btn) {
       btn.addEventListener('click', handleAddItem);
     });
+
+    document.getElementById('complete-btn').addEventListener('click', handleCompleteSession);
+    document.getElementById('cancel-btn').addEventListener('click', handleCancelSession);
   });
 
   function handleAddItem(evt) {
@@ -53,5 +81,21 @@
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('weight='+weight);
 
+  }
+
+  function handleCompleteSession(evt) {
+    var id = document.getElementById('session-id').value;
+    var req = new XMLHttpRequest();
+    req.open('POST', servername+'/api/complete-session', true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('id='+id);
+  }
+
+  function handleCancelSession(evt) {
+    var id = document.getElementById('session-id').value;
+    var req = new XMLHttpRequest();
+    req.open('POST', servername+'/api/cancel-session', true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('id='+id);
   }
 </script>
