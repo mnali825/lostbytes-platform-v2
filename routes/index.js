@@ -9,6 +9,7 @@ var Item = mongoose.model('Item');
 
 require('./menu')(router)
 require('./sessions')(router);
+require('./dashboard')(router);
 
 router.get('/', function(req, res) {
   res.render('index', { user: req.user });
@@ -33,7 +34,7 @@ router.post('/login', function(req,res,next) {
       // NOTE: using this version of authenticate requires us to
       // call login manually
       req.logIn(user, function(err) {
-        res.redirect('/');
+        res.redirect('/dashboard');
       });
     } else {
       res.render('login', {message:'Your login or password is incorrect.'});

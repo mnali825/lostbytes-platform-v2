@@ -3,6 +3,7 @@ module.exports = function(router) {
   var Session = mongoose.model('Session');
   var MenuItem = mongoose.model('MenuItem');
   var Item = mongoose.model('Item');
+  var User = mongoose.model('User');
 
   router.get('/start-session', function(req,res) {
     if (req.user) {
@@ -52,7 +53,7 @@ module.exports = function(router) {
 
   router.post('/api/complete-session', function(req,res) {
     Session.findOne({_id:req.body.id}, function(err, sess) {
-      User.findOne({username:req.params.username}, function(err, user) {
+      User.findOne({username:req.user.username}, function(err, user) {
         user.sessions.push(sess._id);
         user.save(function(err, user) {
           console.log(user);
