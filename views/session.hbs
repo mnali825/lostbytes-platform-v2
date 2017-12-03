@@ -39,16 +39,18 @@
           <a href="#" class="brand-logo center black-text">Data</a>
         </div>
       </nav>
-      <div id="data-container" style="padding-left:15px; padding-right:15px;">
-        <div class="row card-panel center">
-          <div class="col l6">
-            <h5 class="left-align">Chicken</h5>
+      <div id="data-container" style="padding-left:15px; padding-right:15px; height:77vh; overflow:scroll;">
+        <div class="row card-panel center" style="padding:0;">
+          <div class="col l6 valign-wrapper" style="height:11vh;">
+            <h5 class="center-align">Chicken</h5>
           </div>
           <div class="col l3">
-            <h5>$12.65</h5>
+            <p><b>Price</b></p>
+            <p>$12.65</p>
             </div>
           <div class="col l3">
-            <h5>15.27</h5>
+            <p><b>Weight</b></p>
+            <p>15.27</p>
           </div>
         </div>
       </div>
@@ -84,6 +86,7 @@
   }
 
   function handleCompleteSession(evt) {
+    evt.preventDefault();
     var id = document.getElementById('session-id').value;
     var req = new XMLHttpRequest();
     req.open('POST', servername+'/api/complete-session', true);
@@ -92,6 +95,7 @@
   }
 
   function handleCancelSession(evt) {
+    evt.preventDefault();
     var id = document.getElementById('session-id').value;
     var req = new XMLHttpRequest();
     req.open('POST', servername+'/api/cancel-session', true);

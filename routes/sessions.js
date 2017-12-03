@@ -50,8 +50,8 @@ module.exports = function(router) {
     }
   });
 
-  router.post('/api/complete-session/s=:id', function(req,res) {
-    Session.findOne({_id:req.params.id}, function(err, sess) {
+  router.post('/api/complete-session', function(req,res) {
+    Session.findOne({_id:req.body.id}, function(err, sess) {
       User.findOne({username:req.params.username}, function(err, user) {
         user.sessions.push(sess._id);
         user.save(function(err, user) {
@@ -61,8 +61,8 @@ module.exports = function(router) {
     });
   });
 
-  router.post('/api/cancel-session/s=:id', function(req,res) {
-    Session.findOne({_id:req.params.id}).remove(function(err,sess) {
+  router.post('/api/cancel-session', function(req,res) {
+    Session.findOne({_id:req.body.id}).remove(function(err,sess) {
       console.log('removed: '+sess);
     });
   });
