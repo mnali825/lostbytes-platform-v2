@@ -49,7 +49,7 @@
           <a href="#" class="brand-logo center black-text">Data</a>
         </div>
       </nav>
-      <div id="data-container" style="padding-left:15px; padding-right:15px; height:77vh; overflow:scroll;">
+      <div id="data-container" style="padding-left:15px; padding-right:15px; height:55vh; overflow:scroll;">
         
       </div>
     </div>
@@ -84,7 +84,7 @@
     document.getElementById('total-weight-counter').textContent = Number(document.getElementById('total-weight-counter').textContent)+Number(weight);
 
     // Create and add card on front end
-    $('#data-container').append('<div class="row card-panel center" style="padding:0;"><div class="col l6 valign-wrapper" style="height:11vh;"><h5 class="center-align">'+this.textContent+ '</h5></div><div class="col l3"><p><b>Cost</b></p><p>$'+cost+'</p></div><div class="col l3"><p><b>Weight</b></p><p>'+weight+' oz.</p></div></div>')
+    $('#data-container').prepend('<div class="row card-panel center" style="padding:0;"><div class="col l6 valign-wrapper" style="height:11vh;"><h5 class="center-align">'+this.textContent+ '</h5></div><div class="col l3"><p><b>Cost</b></p><p>$'+cost+'</p></div><div class="col l3"><p><b>Weight</b></p><p>'+weight+' oz.</p></div></div>')
 
     // Send AJAX request to add item
     var req = new XMLHttpRequest();
