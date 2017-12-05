@@ -43,10 +43,10 @@ module.exports = function(router) {
             sess.cost += item.cost;
             sess.save(function(err, sess) {
               console.log(sess);
+              res.status(200).send(req.body);
             });
           });
         });
-
       });
     }
   });

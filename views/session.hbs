@@ -14,7 +14,7 @@
 
       <div id="menu-items" style="padding:25px;">
         {{#each menuItems}}
-        <a href="" class="btn btn-large waves-effect waves-light menu-item-btn blue darken-4" id="{{_id}}" data-cost="{{cost}}">{{name}}</a>
+        <a href="" class="btn btn-large waves-effect waves-light menu-item-btn green" id="{{_id}}" data-cost="{{cost}}">{{name}}</a>
         {{/each}}
       </div>
 
@@ -36,11 +36,11 @@
     <div class="row card-panel center" style="padding:15px;">
       <div class="col l6">
         <h5>Total Cost</h5>
-        <h4 id="total-cost-counter">0</h4>
+        <h4>$<span id="total-cost-counter">0</span></h4>
       </div>
       <div class="col l6">
         <h5>Total Weight</h5>
-        <h4 id="total-weight-counter">0</h4>
+        <h4><span id="total-weight-counter">0</span> oz.</h4>
       </div>
     </div>
     <div class="card-panel" style="height:65vh; padding:0;">
@@ -61,6 +61,8 @@
 <script type="text/javascript">
   var servername = 'http://localhost:3000';
   document.addEventListener('DOMContentLoaded', function() {
+    $('#weight').focus();
+
     var menuItemBtns = document.getElementsByClassName('menu-item-btn');
     Array.prototype.forEach.call(menuItemBtns, function(btn) {
       btn.addEventListener('click', handleAddItem);
@@ -76,6 +78,9 @@
     var sid = document.getElementById('session-id').value;
     var weight = document.getElementById('weight').value;
     var cost = Number(this.dataset.cost)*Number(weight);
+
+    $('#weight').val('');
+    $('#weight').focus();
 
     // Update total cost counter
     document.getElementById('total-cost-counter').textContent = Number(document.getElementById('total-cost-counter').textContent)+Number(cost);
@@ -98,8 +103,15 @@
     evt.preventDefault();
     var id = document.getElementById('session-id').value;
     var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if(req.status == 200) {
+        alert('we in here');
+        window.location.replace(servername+"/dashboard");
+      }
+    }
     req.open('POST', servername+'/api/complete-session', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
     req.send('id='+id);
   }
 
