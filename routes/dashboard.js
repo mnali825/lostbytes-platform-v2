@@ -29,10 +29,11 @@ module.exports = function(router) {
         });
 
         // Get total cost & weight
-        var totalCost = items.reduce(function(a,b) {return a.cost+b.cost;});
-        var totalWeight = items.reduce((a,b)=>a.weight+b.weight);
+        // var totalCost = items.reduce(function(a,b) {return a.cost+b.cost;});
+        // var totalWeight = items.reduce((a,b)=>a.weight+b.weight);
 
-        res.render('dashboard', {items:output, totalCost:totalCost, totalWeight:totalWeight});
+        // res.render('dashboard', {items:output, totalCost:totalCost, totalWeight:totalWeight});
+        res.render('dashboard')
       });
     } else {
       res.redirect('/');

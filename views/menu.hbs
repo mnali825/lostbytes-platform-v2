@@ -4,7 +4,7 @@
 <div class='menu-page' style="height:91vh; background-color:rgba(0,0,0,0.85);">
   <div class="menu-container">
 
-    <div class="menu-form card-panel" style="">
+    <div class="menu-form card-panel" style="height:80vh">
       <h3>Add New Item</h3>
       <form id="add-menu-item-form" action="" method="post">
         <div>
@@ -29,13 +29,15 @@
       </form>
     </div>
 
-    <div class="menu-list card-panel" style="padding:0;">
+    <div class="menu-list card-panel" style="padding:0;height:80vh">
       <h3>Current Menu</h3>
-      <ul>
-        {{#each menuItems}}
-        <li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">{{name}} ${{cost}}</a></li>
-        {{/each}}
-      </ul>
+      <div style="height:60vh;overflow:scroll">
+        <ul id="item-list">
+          {{#each menuItems}}
+          <li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">{{name}} ${{cost}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
 
   </div>
@@ -55,9 +57,18 @@
     var cost = document.getElementById('item-cost').value;
     console.log(name + cost);
 
+    $('#item-list').prepend(`<li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">${name} $${cost}</a></li>`)
     var req = new XMLHttpRequest();
     req.open('POST', servername+'/api/create-menu-item', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('name='+name+'&cost='+cost);
+
+    document.getElementById('item-name').value = '';
+    document.getElementById('item-cost').value = '';
+
+    $('#unitChoice1').prop('checked', false);
+    $('#unitChoice2').prop('checked', false);
+
+
   }
 </script>
