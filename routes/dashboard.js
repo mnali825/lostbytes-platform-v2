@@ -7,7 +7,8 @@ module.exports = function(router) {
     if (req.user) {
       //Get all sessions from id's stored in user obj
       Session.find({_id: {$in:req.user.sessions} }, function(err, sessions) {
-        if (sessions) {
+        if (sessions != '') {
+          console.log('we still here');
           var items = [];
           sessions.forEach(function(sess) {
             Array.prototype.push.apply(items,sess.items);
@@ -45,7 +46,7 @@ module.exports = function(router) {
 
           res.render('dashboard', {items:output, totalCost:totalCost, totalWeight:totalWeight, recentWeight:recentWeight, recentCost:recentCost});              
         } else {
-          res.render('dashboard');
+          res.render('dashboard', {totalCost:0, totalWeight:0,recentWeight:0,recentCost:0});
         }
 
       });
