@@ -34,4 +34,13 @@ module.exports = function(router) {
         })
       })
   })
+
+  router.delete('/api/create-menu-item/:itemId', function(req, res){
+    MenuItem.findByIdAndRemove(req.params.itemId, (err, item) => {
+      let response = {
+        message: "Successfully deleted menu item"
+      };
+      res.status(200).send(response)
+    })
+  })
 }

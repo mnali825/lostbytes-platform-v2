@@ -43,3 +43,18 @@ nav {
   width: 40%;
   height: 90%;
 }
+
+#item-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-icon:hover {
+  color: orange;
+  transition: color 0.25s;
+}
+
+.delete-icon:hover {
+  color: red;
+  transition: color 0.25s;
+}

@@ -34,7 +34,16 @@
       <div style="height:60vh;overflow:scroll">
         <ul id="item-list">
           {{#each menuItems}}
-          <li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">{{name}} ${{cost}}</a></li>
+            <li>
+              <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                  <p id="item-card">
+                    <span style="text-transform: uppercase">{{name}} ${{cost}}</span><span><a href="#"><i class="material-icons edit-icon">edit</i></a> <a href="#"><i class="material-icons delete-icon">clear</i></a></span>
+                  </p>
+                </div>
+              </div>
+            </li>
+            <!-- <li><a href="" class="card blue-grey darken-1" style="width:500px; height:200px; margin-bottom:5px;">{{name}} ${{cost}}</a><i class="material-icons">edit</i><i class="material-icons">clear</i></li> -->
           {{/each}}
         </ul>
       </div>
@@ -68,7 +77,17 @@
 
     $('#unitChoice1').prop('checked', false);
     $('#unitChoice2').prop('checked', false);
+  }
 
-
+  // How to grab correct id
+  function handleItemDelete(id){
+    var itemId = id
+    $.ajax({
+      url: `${servername}/api/create-menu-item/${itemId}`,
+      type: 'DELETE',
+      success: function(result) {
+        console.log('successfully deleted')
+      }
+    })
   }
 </script>
