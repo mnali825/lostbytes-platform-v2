@@ -18,7 +18,7 @@ nav {
 .menu-page {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-content: space-between;
 }
 
 .menu-container {
@@ -28,11 +28,21 @@ nav {
   justify-content: space-around;
 }
 
+#add-menu-item-form {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
 .menu-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  justify-content: space-evenly;
+  width: 45%;
   height: 90%;
 }
 
@@ -40,21 +50,33 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
+  justify-content: space-evenly;
+  width: 45%;
   height: 90%;
 }
 
-#item-card {
+.menu-card{
+  background-color: #26a69a;
+}
+
+#item-text {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
 .edit-icon:hover {
   color: orange;
-  transition: color 0.25s;
+  transition: color 0.15s;
+  cursor: pointer;
 }
 
 .delete-icon:hover {
   color: red;
-  transition: color 0.25s;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+
+#item-container {
+  width: 60%;
 }
