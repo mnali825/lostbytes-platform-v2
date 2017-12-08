@@ -66,6 +66,7 @@ nav {
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 5px;
+  width: 290px;
 }
 
 .delete-icon:hover {
@@ -75,7 +76,14 @@ nav {
 }
 
 #item-container {
-  width: 60%;
+  width: 100%;
+}
+
+#item-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
 }
 
 #list-item-name:focus,

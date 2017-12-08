@@ -8,11 +8,11 @@
       <form id="add-menu-item-form" action="" method="post">
         <div>
           <label for="">Name</label>
-          <input id="form-item-name" type="text" name="name" value="">
+          <input id="form-item-name" type="text" name="name" value="" >
         </div>
         <div class="">
           <label for="">Purchase Price</label>
-          <input id="item-cost" type="number" min="0" name="" value="">
+          <input id="form-item-cost" type="number" min="0" name="" value="">
         </div>
         <div class="">
           <div style="display:flex;justify-content:space-evenly;">
@@ -35,8 +35,8 @@
             <li>
               <div class="menu-card">
                 <span style="padding-top:15px;">
-                  <input id="list-item-name" type="text" itemId="{{id}}" value="{{name}}" style="width:120px;text-transform:uppercase"/>
-                  $ <input id="list-item-cost" type="number" min="0" itemId="{{id}}" value="{{cost}}" style="width:30px;text-align:center"/> / lb
+                  <input id="list-item-name" type="text" itemId="{{id}}" value="{{name}}" style="width:130px;text-transform:uppercase"/>
+                  $<input id="list-item-cost" type="number" min="0" itemId="{{id}}" value="{{cost}}" style="width:50px;text-align:center"/>/ lb
 
                 </span>
                 <i class="material-icons delete-icon" itemId="{{id}}">clear</i>
@@ -92,6 +92,8 @@
 
   function handleMenuItemForm(evt) {
     evt.preventDefault();
+    console.log(document.getElementById('form-item-name'))
+    console.log(document.getElementById('form-item-cost'))
 
     var name = document.getElementById('form-item-name').value;
     var cost = document.getElementById('form-item-cost').value;
@@ -128,7 +130,7 @@
         console.log('successfully deleted')
       }
     })
-    this.parentNode.style.display = 'none'
+    this.parentNode.parentNode.style.display = 'none'
   }
   //
   function handleNameUpdate(itemId, itemName) {
