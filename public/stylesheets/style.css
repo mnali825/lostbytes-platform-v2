@@ -1,18 +1,18 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
 nav {
-  padding-left:5vw;
-  padding-right:5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 .menu-item-btn {
-  width:25%;
+  width: 25%;
 }
 
 .menu-page {
@@ -55,20 +55,17 @@ nav {
   height: 90%;
 }
 
-.menu-card{
+.menu-card {
   background-color: #26a69a;
-}
-
-#item-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.edit-icon:hover {
-  color: orange;
-  transition: color 0.15s;
-  cursor: pointer;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
 }
 
 .delete-icon:hover {
@@ -79,4 +76,9 @@ nav {
 
 #item-container {
   width: 60%;
+}
+
+#list-item-name:focus,
+#list-item-cost:focus {
+  border-color: white;
 }

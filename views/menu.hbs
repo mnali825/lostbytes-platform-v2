@@ -8,7 +8,7 @@
       <form id="add-menu-item-form" action="" method="post">
         <div>
           <label for="">Name</label>
-          <input id="item-name" type="text" name="name" value="">
+          <input id="form-item-name" type="text" name="name" value="">
         </div>
         <div class="">
           <label for="">Purchase Price</label>
@@ -33,15 +33,15 @@
         <ul id="item-list">
           {{#each menuItems}}
             <li>
-              <div class="card menu-card">
-                <div class="card-content white-text">
-                  <p id="item-text">
-                    <span style="text-transform:uppercase;">{{name}} ${{cost}}</span><span style="width:20%;display:flex;justify-content:space-between;"><i class="material-icons" id="edit-icon">edit</i><i class="material-icons" id="delete-icon">clear</i></span>
-                  </p>
-                </div>
+              <div class="menu-card">
+                <span style="padding-top:15px;">
+                  <input id="list-item-name" type="text" itemId="{{id}}" value="{{name}}" style="width:120px;text-transform:uppercase"/>
+                  $ <input id="list-item-cost" type="number" min="0" itemId="{{id}}" value="{{cost}}" style="width:30px;text-align:center"/> / lb
+
+                </span>
+                <i class="material-icons delete-icon" itemId="{{id}}">clear</i>
               </div>
             </li>
-            <!-- <li><a href="" class="card blue-grey darken-1" style="width:500px; height:200px; margin-bottom:5px;">{{name}} ${{cost}}</a><i class="material-icons">edit</i><i class="material-icons">clear</i></li> -->
           {{/each}}
         </ul>
       </div>
@@ -53,35 +53,74 @@
 
 <script type="text/javascript">
   var servername = 'http://localhost:3000';
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('add-menu-item-form').addEventListener('submit', handleMenuItemForm);
-    document.getElementById('delete-icon').addEventListener('click', handleItemDelete);
-    document.getElementById('edit-icon').addEventListener('click', handleItemEdit);
-  });
+
+    document.querySelectorAll('.delete-icon').forEach(icon => {
+     icon.addEventListener('click', handleItemDelete)
+    });
+
+   document.querySelectorAll('#list-item-name').forEach(item => {
+     item.onkeypress = function(e) {
+       var event = e || window.event;
+        var keyCode = event.keyCode || event.which;
+        if (keyCode == '13'){
+          // Enter pressed
+          var itemName = this.value
+          var itemId = this.getAttribute('itemId')
+          handleNameUpdate(itemId, itemName)
+          return false;
+        }
+      }
+    })
+
+    document.querySelectorAll('#list-item-cost').forEach(item => {
+      item.onkeypress = function(e) {
+        var event = e || window.event;
+         var keyCode = event.keyCode || event.which;
+         if (keyCode == '13'){
+           // Enter pressed
+           var itemCost = this.value
+           var itemId = this.getAttribute('itemId')
+           handleCostUpdate(itemId, itemCost)
+           return false;
+         }
+      }
+    })
+
+  })
 
   function handleMenuItemForm(evt) {
     evt.preventDefault();
 
-    var name = document.getElementById('item-name').value;
-    var cost = document.getElementById('item-cost').value;
+    var name = document.getElementById('form-item-name').value;
+    var cost = document.getElementById('form-item-cost').value;
     console.log(name + cost);
 
-    $('#item-list').prepend(`<li><a href="" class="btn btn-large" style="width:100%; margin-bottom:5px;">${name} $${cost}</a></li>`)
+    $('#item-list').prepend(`<li>
+      <div class="menu-card">
+        <span style="padding-top:15px;">
+          <input id="list-item-name" type="text" value="${name}" style="width:120px;text-transform:uppercase"/>
+          $ <input id="list-item-cost" type="number" min="0" value="${cost}" style="width:30px;text-align:center"/> / lb
+        </span>
+        <i class="material-icons delete-icon">clear</i>
+      </div>
+    </li>`)
+
     var req = new XMLHttpRequest();
     req.open('POST', servername+'/api/create-menu-item', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('name='+name+'&cost='+cost);
 
-    document.getElementById('item-name').value = '';
-    document.getElementById('item-cost').value = '';
+    document.getElementById('form-item-name').value = '';
+    document.getElementById('form-item-cost').value = '';
 
     $('#unitChoice1').prop('checked', false);
     $('#unitChoice2').prop('checked', false);
   }
-
-  // How to grab correct id
-  function handleItemDelete(id){
-    var itemId = id
+  //
+  function handleItemDelete(){
+    var itemId = this.getAttribute('itemId');
     $.ajax({
       url: `${servername}/api/create-menu-item/${itemId}`,
       type: 'DELETE',
@@ -89,10 +128,35 @@
         console.log('successfully deleted')
       }
     })
+    this.parentNode.style.display = 'none'
   }
+  //
+  function handleNameUpdate(itemId, itemName) {
+    var newData = {}
+    newData.name = itemName
 
-  function handleItemUpdate() {
+    axios.put(
+      `${servername}/api/create-menu-item/${itemId}`,
+      newData
+    ).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+  //
+  function handleCostUpdate(itemId, itemCost) {
+    var newData = {}
+    newData.cost = Number(itemCost)
 
+    axios.put(
+      `${servername}/api/create-menu-item/${itemId}`,
+      newData
+    ).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
 </script>
