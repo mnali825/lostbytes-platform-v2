@@ -9,9 +9,10 @@
         </nav>    
         <div style="height:33.33vh; margin-bottom:0;" class="red row" id="cost-info">
           <div class="col l3 center">
-            <h5>Recent</h5>
+            <h5><b>Recent</b></h5>
             <h4>{{recentCost}}</h4>
-            <h5>Total</h5>
+            <hr>
+            <h5><b>Total</b></h5>
             <h4>{{totalCost}}</h4>
           </div>
           <div class="col l9"></div>
@@ -23,9 +24,10 @@
         </nav>  
         <div class="grey row" style="height:33.33vh; margin-bottom:0;" id="weight-info">
           <div class="col l3 center">
-            <h5>Recent</h5>
+            <h5><b>Recent</b></h5>
             <h4>{{recentWeight}}</h4>
-            <h5>Total</h5>
+            <hr>
+            <h5><b>Total</b></h5>
             <h4>{{totalWeight}}</h4>
           </div>
           <div class="col l9"></div>
@@ -41,11 +43,11 @@
         </nav> 
         <div id="items" style="padding:10px; height:73vh; overflow:scroll;">
           {{#each items}}
-          <div class="card-panel">
+          <div class="card-panel center">
             <div class="row">
-              <div class="col l6">{{type.name}}</div>
-              <div class="col l3">${{cost}}</div>
-              <div class="col l3">{{weight}} oz</div>
+              <div class="col l4">{{type.name}}</div>
+              <div class="col l4">${{cost}}</div>
+              <div class="col l4">{{weight}} oz</div>
             </div>
           </div>
           {{/each}}

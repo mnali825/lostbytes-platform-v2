@@ -14,7 +14,7 @@
 
       <div id="menu-items" style="padding:25px;">
         {{#each menuItems}}
-        <a href="" class="btn btn-large waves-effect waves-light menu-item-btn green" id="{{_id}}" data-cost="{{cost}}">{{name}}</a>
+        <a href="" class="btn btn-large waves-effect waves-light menu-item-btn green" id="{{_id}}" data-cost="{{cost}}" style="margin-bottom:5px;">{{name}}</a>
         {{/each}}
       </div>
 
@@ -60,6 +60,8 @@
 
 <script type="text/javascript">
   var servername = 'http://localhost:3000';
+  var items = [];
+  var id = 0;
   document.addEventListener('DOMContentLoaded', function() {
     $('#weight').focus();
 
@@ -89,13 +91,26 @@
     document.getElementById('total-weight-counter').textContent = Number(document.getElementById('total-weight-counter').textContent)+Number(weight);
 
     // Create and add card on front end
-    $('#data-container').prepend('<div class="row card-panel center" style="padding:0;"><div class="col l6 valign-wrapper" style="height:11vh;"><h5 class="center-align">'+this.textContent+ '</h5></div><div class="col l3"><p><b>Cost</b></p><p>$'+cost+'</p></div><div class="col l3"><p><b>Weight</b></p><p>'+weight+' oz.</p></div></div>')
+    $('#data-container').prepend('<div id="'+id+'" class="row card-panel center" style="padding:0;"><div class="col l5 valign-wrapper" style="height:11vh;"><h5 class="center-align">'+this.textContent+ '</h5></div><div class="col l3"><p><b>Cost</b></p><p>$'+cost+'</p></div><div class="col l3"><p><b>Weight</b></p><p>'+weight+' oz.</p></div><div class="col l1"><a class="delete-icon" onclick="handleDeleteItem('+id+');"><i class="material-icons small">close</i></a></div></div>');
+
+    // generate ID and add to items  and add ID to ^^^^
+    items.push({"id":id,"tid":tid,"weight":weight,"cost":cost});
+    id+=1;
 
     // Send AJAX request to add item
-    var req = new XMLHttpRequest();
-    req.open('POST', servername+'/api/add-item/s='+sid+'&t='+tid, true);
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('weight='+weight);
+    // var req = new XMLHttpRequest();
+    // req.open('POST', servername+'/api/add-item/s='+sid+'&t='+tid, true);
+    // req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // req.send('weight='+weight);
+
+  }
+
+  function handleDeleteItem(id) {
+    items = items.filter(function(item) {
+      return item.id !== id;
+    });
+
+    $('#'+id).remove();
 
   }
 
@@ -105,20 +120,23 @@
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
       if(req.status == 200) {
-        alert('we in here');
         window.location.replace(servername+"/dashboard");
       }
     }
     req.open('POST', servername+'/api/complete-session', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    req.send('id='+id);
+    req.send('id='+id+'&data='+JSON.stringify(items));
   }
 
   function handleCancelSession(evt) {
     evt.preventDefault();
     var id = document.getElementById('session-id').value;
     var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if(req.status == 200) {
+        window.location.replace(servername+"/dashboard");
+      }
+    }
     req.open('POST', servername+'/api/cancel-session', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('id='+id);
