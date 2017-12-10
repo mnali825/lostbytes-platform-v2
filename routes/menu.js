@@ -14,12 +14,15 @@ module.exports = function(router) {
   });
 
   router.post('/api/create-menu-item', function(req, res) {
-    new MenuItem({
-      name: req.body.name,
-      cost: Number(req.body.cost)
-    }).save(function(err, menuItem) {
-      console.log(menuItem);
-    });
+    var items = JSON.parse(req.body.items)
+    items.forEach(item => {
+      new MenuItem({
+        name: item.name,
+        cost: Number(item.cost)
+      }).save(function(err, menuItem) {
+        console.log(menuItem);
+      });
+    })
   });
 
   router.put('/api/create-menu-item/:itemId', function(req, res) {

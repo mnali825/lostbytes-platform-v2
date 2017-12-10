@@ -23,7 +23,11 @@
             <label for="unitChoice2">/ounce</label>
           </div>
         </div>
-        <input class="btn btn-large" style="width:100%;" type="submit" name="" value="Submit">
+        <div class="">
+          <input class="btn btn-large" style="width:100%;margin-bottom:10px;margin-top:10px" type="submit" name="" value="Submit">
+          <a href="" id="complete-btn" class="btn btn-large green darken-2" style="width:100%;">Save Menu</a>
+        </div>
+
       </form>
     </div>
 
@@ -53,72 +57,80 @@
 
 <script type="text/javascript">
   var servername = 'http://localhost:3000';
+  var newItems = [];
+  var index = 0;
   document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('add-menu-item-form').addEventListener('submit', handleMenuItemForm);
+    document.getElementById('add-menu-item-form').addEventListener('submit', handleAddItem);
+    document.getElementById('complete-btn').addEventListener('click', handleMenuItemForm);
 
     document.querySelectorAll('.delete-icon').forEach(icon => {
      icon.addEventListener('click', handleItemDelete)
     });
 
    document.querySelectorAll('#list-item-name').forEach(item => {
-     item.onkeypress = function(e) {
-       var event = e || window.event;
-        var keyCode = event.keyCode || event.which;
-        if (keyCode == '13'){
-          // Enter pressed
-          var itemName = this.value
-          var itemId = this.getAttribute('itemId')
-          handleNameUpdate(itemId, itemName)
-          return false;
-        }
-      }
+     item.addEventListener('focusout', handleNameUpdate)
     })
 
     document.querySelectorAll('#list-item-cost').forEach(item => {
-      item.onkeypress = function(e) {
-        var event = e || window.event;
-         var keyCode = event.keyCode || event.which;
-         if (keyCode == '13'){
-           // Enter pressed
-           var itemCost = this.value
-           var itemId = this.getAttribute('itemId')
-           handleCostUpdate(itemId, itemCost)
-           return false;
-         }
-      }
+      item.addEventListener('focusout', handleCostUpdate)
     })
-
   })
+
+
+  function handleAddItem(e){
+    e.preventDefault()
+    var name = document.getElementById('form-item-name').value;
+    var cost = document.getElementById('form-item-cost').value;
+
+    $('#item-list').prepend(`
+      <li id="${index}">
+        <div class="menu-card">
+          <span style="padding-top:15px;">
+            <input id="list-item-name"  type="text" value="${name}" class="name-${index}" onfocusout="handleEditName(${index})" style="width:120px;text-transform:uppercase"/>
+            $ <input id="list-item-cost" type="number" min="0" value="${cost}" class="cost-${index}" onfocusout="handleEditCost(${index})" style="width:30px;text-align:center"/> / lb
+          </span>
+          <i class="material-icons delete-icon" onclick="handleNewItemDelete(${index})">clear</i>
+        </div>
+      </li>
+      `)
+
+
+      newItems.push({'name': name, 'cost': cost});
+      index+=1
+
+      document.getElementById('form-item-name').value = '';
+      document.getElementById('form-item-cost').value = '';
+
+      $('#unitChoice1').prop('checked', false);
+      $('#unitChoice2').prop('checked', false);
+  }
+
+  function handleEditName(index) {
+    var item = document.querySelector(`.name-${index}`)
+    newItems[index].name = item.value;
+    console.log(newItems);
+  }
+
+  function handleEditCost(index) {
+    var item = document.querySelector(`.cost-${index}`)
+    newItems[index].cost = item.value;
+    console.log(newItems);
+  }
+
+  function handleNewItemDelete(index) {
+    newItems.splice(index, 1)
+    $('#'+index).remove();
+  }
 
   function handleMenuItemForm(evt) {
     evt.preventDefault();
-    console.log(document.getElementById('form-item-name'))
-    console.log(document.getElementById('form-item-cost'))
-
-    var name = document.getElementById('form-item-name').value;
-    var cost = document.getElementById('form-item-cost').value;
-    console.log(name + cost);
-
-    $('#item-list').prepend(`<li>
-      <div class="menu-card">
-        <span style="padding-top:15px;">
-          <input id="list-item-name" type="text" value="${name}" style="width:120px;text-transform:uppercase"/>
-          $ <input id="list-item-cost" type="number" min="0" value="${cost}" style="width:30px;text-align:center"/> / lb
-        </span>
-        <i class="material-icons delete-icon">clear</i>
-      </div>
-    </li>`)
 
     var req = new XMLHttpRequest();
     req.open('POST', servername+'/api/create-menu-item', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('name='+name+'&cost='+cost);
 
-    document.getElementById('form-item-name').value = '';
-    document.getElementById('form-item-cost').value = '';
+    req.send('items='+JSON.stringify(newItems));
 
-    $('#unitChoice1').prop('checked', false);
-    $('#unitChoice2').prop('checked', false);
   }
   //
   function handleItemDelete(){
@@ -135,7 +147,8 @@
   //
   function handleNameUpdate(itemId, itemName) {
     var newData = {}
-    newData.name = itemName
+    newData.name = this.value
+    var itemId = this.getAttribute('itemId')
 
     axios.put(
       `${servername}/api/create-menu-item/${itemId}`,
@@ -147,9 +160,10 @@
     })
   }
   //
-  function handleCostUpdate(itemId, itemCost) {
+  function handleCostUpdate() {
     var newData = {}
-    newData.cost = Number(itemCost)
+    newData.cost = this.value
+    var itemId = this.getAttribute('itemId')
 
     axios.put(
       `${servername}/api/create-menu-item/${itemId}`,
